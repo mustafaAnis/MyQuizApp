@@ -4,12 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import kotlin.math.log
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
+
+    private var mCurrentPosition: Int = 1
+    private var mQuestionsList: ArrayList<Question>? = null
+    private var mSelectedOptionPosition: Int = 0
 
     private var progressBar: ProgressBar? = null
     private var inProgress: TextView? = null
@@ -20,6 +25,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private var tvOptionTwo: TextView? = null
     private var tvOptionThree: TextView? = null
     private var tvOptionFour: TextView? = null
+    private var btnSubmit: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +40,35 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tvOptionTwo = findViewById(R.id.tv_option_two)
         tvOptionThree = findViewById(R.id.tv_option_three)
         tvOptionFour = findViewById(R.id.tv_option_four)
+        btnSubmit = findViewById(R.id.btn_submit)
 
+        mQuestionsList = Constants.getQuestion()
 
-        val questionsList = Constants.getQuestion()
-        Log.i("QuestionsList size is ","${questionsList.size}")
+        setQuestion()
 
-        for (i in questionsList){
-            Log.e("Question","${i.id} . ${i.question}")
-        }
+    }
 
-        var currentPosition = 1
-        val question : Question = questionsList[currentPosition-1]
+    private fun setQuestion() {
+
+        val question: Question = mQuestionsList!![currentPosition - 1]
         ivImage?.setImageResource(question.image)
-        progressBar?.progress = currentPosition
-        inProgress?.text = "$currentPosition / ${progressBar?.max}"
+        progressBar?.progress = mCurrentPosition
+        inProgress?.text = "$mCurrentPosition / ${progressBar?.max}"
         tvQuestion?.text = question.question
         tvOptionOne?.text = question.optionOne
         tvOptionTwo?.text = question.optionTwo
         tvOptionThree?.text = question.optionThree
         tvOptionFour?.text = question.optionFour
+
+        if (mCurrentPosition == mQuestionsList!!.size){
+            btnSubmit?.text = "FINISH"
+        } else{
+            btnSubmit?.text = "SUBMIT"
+        }
+    }
+
+    private fun defaultOptionviews(){
+
 
     }
 
