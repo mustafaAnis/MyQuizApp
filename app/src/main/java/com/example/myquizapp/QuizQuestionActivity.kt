@@ -3,12 +3,13 @@ package com.example.myquizapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import kotlin.math.log
 
-class QuizQuestionActivity : AppCompatActivity() {
+class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private var progressBar: ProgressBar? = null
     private var inProgress: TextView? = null
@@ -39,8 +40,23 @@ class QuizQuestionActivity : AppCompatActivity() {
         Log.i("QuestionsList size is ","${questionsList.size}")
 
         for (i in questionsList){
-            log.e("Questions",i.question)
+            Log.e("Question","${i.id} . ${i.question}")
         }
 
+        var currentPosition = 1
+        val question : Question = questionsList[currentPosition-1]
+        ivImage?.setImageResource(question.image)
+        progressBar?.progress = currentPosition
+        inProgress?.text = "$currentPosition / ${progressBar?.max}"
+        tvQuestion?.text = question.question
+        tvOptionOne?.text = question.optionOne
+        tvOptionTwo?.text = question.optionTwo
+        tvOptionThree?.text = question.optionThree
+        tvOptionFour?.text = question.optionFour
+
+    }
+
+    override fun onClick(p0: View?) {
+        TODO("Not yet implemented")
     }
 }
