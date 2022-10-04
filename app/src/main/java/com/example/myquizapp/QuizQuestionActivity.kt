@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat
 import kotlin.math.log
 
@@ -45,6 +42,14 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tvOptionFour = findViewById(R.id.tv_option_four)
         btnSubmit = findViewById(R.id.btn_submit)
 
+        tvOptionOne?.setOnClickListener(this)
+        tvOptionTwo?.setOnClickListener(this)
+        tvOptionThree?.setOnClickListener(this)
+        tvOptionFour?.setOnClickListener(this)
+        btnSubmit?.setOnClickListener(this)
+
+
+
         mQuestionsList = Constants.getQuestion()
 
         setQuestion()
@@ -52,7 +57,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setQuestion() {
-
+        defaultOptionViews()
         val question: Question = mQuestionsList!![mCurrentPosition - 1]
         ivImage?.setImageResource(question.image)
         progressBar?.progress = mCurrentPosition
@@ -111,26 +116,86 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.tv_option_one -> {
-                tvOptionOne.let {
-                selectedOptionView(it,1)}
+                tvOptionOne?.let {
+                selectedOptionView(it,1)
+                }
             }
+            R.id.tv_option_two -> {
+                tvOptionTwo?.let {
+                    selectedOptionView(it,2)
+                }
+            }
+            R.id.tv_option_three ->{
+                tvOptionThree?.let {
+                    selectedOptionView(it,3)
+                }
+            }
+            R.id.tv_option_four ->{
+                tvOptionFour?.let {
+                    selectedOptionView(it,4)
+                }
+            }
+            R.id.btn_submit -> {
+                if (mSelectedOptionPosition == 0){
+                    mCurrentPosition++
 
+                    when{
+                        mCurrentPosition <= mQuestionsList!!.size ->{
+                            setQuestion()
+                        }
+                        else ->{
+                            Toast.makeText(this, "Congrats You Made it", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                } else{
+                    val question = mQuestionsList?.get(mCurrentPosition - 1)
+                    if(question!!.correctAnswer != mSelectedOptionPosition){
+                        answerView(mSelectedOptionPosition,R.drawable.wrong_option_border_bg)
+                    }
+                    answerView(mSelectedOptionPosition,R.drawable.correct_option_border_bg)
+
+                    if(mCurrentPosition == mQuestionsList!!.size){
+                        btnSubmit?.text = "FINISH"
+                    }else{
+                        btnSubmit?.text = "GO TO THE NEXT QUESTION"
+                    }
+                    mSelectedOptionPosition = 0
+                }
+            }
 
 
         }
     }
+        private fun answerView(answer: Int,drawableView: Int){
+            when(answer){
+                1 -> {
+                    tvOptionOne?.background = ContextCompat.getDrawable(
+                        this,
+                        drawableView
+                    )
+                }
+                2 ->
+                    tvOptionTwo?.background = ContextCompat.getDrawable(
+                        this,
+                        drawableView
+                    )
+
+                3 -> tvOptionThree?.background = ContextCompat.getDrawable(
+                    this,
+                    drawableView
+                )
+
+                4 ->
+                    tvOptionFour?.background = ContextCompat.getDrawable(
+                        this,
+                        drawableView
+                    )
+            }
 
 
 
 
-
-
-
-
-
-
-
-
+        }
 
 
 }

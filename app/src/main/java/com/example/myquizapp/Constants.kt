@@ -3,7 +3,7 @@ package com.example.myquizapp
 object Constants {
     fun getQuestion(): ArrayList<Question>{
         val questionList = ArrayList<Question>()
-        val que1 = Question(1,"What country does this flag belong to?",R.drawable.ic_flag_of_argentina,"Argentina","Englang","Pakistan","India",1)
+        val que1 = Question(1,"What country does this flag belong to?",R.drawable.ic_flag_of_argentina,"Argentina","England","Pakistan","India",1)
         questionList.add(que1)
         val que2 = Question(2,"What country does this flag belong to?",R.drawable.ic_flag_of_belgium,"Kenya","Belgium","Japan","USA",2)
         questionList.add(que2)
