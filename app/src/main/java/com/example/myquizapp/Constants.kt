@@ -1,6 +1,11 @@
 package com.example.myquizapp
 
 object Constants {
+
+    const val USER_NAME:String = "user_name"
+    const val TOTAL_QUESTIONS = "total_question"
+    const val CORRECT_ANSWERS = "correct_answers"
+
     fun getQuestion(): ArrayList<Question>{
         val questionList = ArrayList<Question>()
         val que1 = Question(1,"What country does this flag belong to?",R.drawable.ic_flag_of_argentina,"Argentina","England","Pakistan","India",1)
