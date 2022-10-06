@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.*
 import androidx.core.content.ContextCompat
 import kotlin.math.log
@@ -49,10 +50,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tvOptionFour = findViewById(R.id.tv_option_four)
         btnSubmit = findViewById(R.id.btn_submit)
 
-        tvOptionOne?.setOnClickListener(this)
-        tvOptionTwo?.setOnClickListener(this)
-        tvOptionThree?.setOnClickListener(this)
-        tvOptionFour?.setOnClickListener(this)
+
+        setListner(this)
         btnSubmit?.setOnClickListener(this)
 
 
@@ -61,6 +60,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
         setQuestion()
 
+    }
+
+    private fun setListner(listner:OnClickListener?) {
+        tvOptionOne?.setOnClickListener(listner)
+        tvOptionTwo?.setOnClickListener(listner)
+        tvOptionThree?.setOnClickListener(listner)
+        tvOptionFour?.setOnClickListener(listner)
     }
 
     private fun setQuestion() {
@@ -76,6 +82,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tvOptionFour?.text = question.optionFour
 
         selectionFlag = true
+        setListner(this)
 
 //        if (mCurrentPosition == mQuestionsList!!.size) {
 //            btnSubmit?.text = "FINISH"
@@ -111,7 +118,6 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
-
         defaultOptionViews()
         mSelectedOptionPosition = selectedOptionNum
         tv.setTextColor(Color.parseColor("#363A43"))
@@ -176,7 +182,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                         if (mCurrentPosition == mQuestionsList!!.size) {
                             btnSubmit?.text = "FINISH"
                         } else {
-                            btnSubmit?.text = "GO TO THE NEXT QUESTION"
+                            btnSubmit?.text = "NEXT"
+                            setListner(null)
                         }
                         mSelectedOptionPosition = 0
                         selectionFlag = false
